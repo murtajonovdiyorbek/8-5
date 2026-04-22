@@ -1,28 +1,18 @@
-from .models import Category, Book
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
-from .serializers import CategorySerializer, BookSerializer
-from rest_framework import permissions
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
+from .serializers import BookSerializer, BookAdminSerializer
+from .models import Book, Category
 
 
-class BookListCreateView(ListCreateAPIView):
+class BookViewSet(ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
+    def get_queryset(self):
+        return Book.objects.all()
 
-class BookUpdateDestroyView(RetrieveUpdateDestroyAPIView):
-    queryset = Book.objects.all()
-    serializer_class = BookSerializer
-    permission_classes = [permissions.AllowAny]
-
-class CategoryListCreateView(ListCreateAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-    permission_classes = [permissions.AllowAny]
-
-
-class CategoryUpdateDestroyView(RetrieveUpdateDestroyAPIView):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-    permission_classes = [permissions.AllowAny]
-
+    def get_serializer_class(self):
+        return BookSerializer
