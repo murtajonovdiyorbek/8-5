@@ -29,6 +29,16 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    # books = serializers.StringRelatedField(many=True)
+    # books = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # books = serializers.HyperlinkedRelatedField(many=True, read_only=True)
+    # books = serializers.SlugRelatedField(many=True, read_only=True, slug_field='name')
+    # url = serializers.HyperlinkedIdentityField(view_name='category_detail')
+
+    books = BookSerializer(many=True)
+
+
+
     class Meta:
         model = Category
         fields = ('name',)
