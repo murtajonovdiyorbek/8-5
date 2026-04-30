@@ -8,7 +8,7 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = ('category','name','year','price')
+        fields = ('category','name','year','price', 'category_name')
         read_only_fields = ('id',)
 
 
@@ -44,7 +44,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('name',)
+        fields = ('name', 'books')
         read_only_fields = ('id',)
 
     def validate_name(self,value):
@@ -69,7 +69,7 @@ class CategorySerializerForDetail(serializers.ModelSerializer):
     books =BookSerializerForCategoryDetail(many=True, read_only=True)
     class Meta:
         model = Category
-        fields = ('name',)
+        fields = ('name', 'books')
         read_only_fields = ('id',)
 
 

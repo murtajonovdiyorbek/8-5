@@ -7,7 +7,8 @@ from .models import Book, Category, Comment
 
 
 class BookViewSet(ModelViewSet):
-    queryset = Book.objects.all().select_related('category').only('id','name','year','price')
+    queryset = Book.objects.all().select_related('category').only(
+        'id', 'name', 'year', 'price', 'category_id').order_by('id')
     serializer_class = BookSerializer
     # filter_backends = [DjangoFilterBackend, SearchFilter]
     # filterset_fields = {
