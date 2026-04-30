@@ -3,6 +3,9 @@ from .models import Book, Category, Comment
 
 
 class BookSerializer(serializers.ModelSerializer):
+    category_name = serializers.CharField(source='category.name')
+
+
     class Meta:
         model = Book
         fields = ('category','name','year','price')
@@ -53,6 +56,21 @@ class CategorySerializer(serializers.ModelSerializer):
 
         return value
 
+class BookSerializerForCategoryDetail(serializers.ModelSerializer):
+    category_name = serializers.CharField(source='category.name')
+
+
+    class Meta:
+        model = Book
+        exclude = ['category']
+
+
+class CategorySerializerForDetail(serializers.ModelSerializer):
+    books =BookSerializerForCategoryDetail(many=True, read_only=True)
+    class Meta:
+        model = Category
+        fields = ('name',)
+        read_only_fields = ('id',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
